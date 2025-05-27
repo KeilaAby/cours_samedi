@@ -38,6 +38,12 @@ final class StudentController extends AbstractController
     {
         $student = new Student();
         $form = $this->createForm(StudentForm::class, $student);
+        $errors = $form->getErrors(true, false); // Récupération des erreurs de validation du formulaire
+        if ($errors->count() > 0) {
+            foreach ($errors as $error) {
+                $this->addFlash('error', $error->getMessage());
+            }
+        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

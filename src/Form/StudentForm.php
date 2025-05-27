@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class StudentForm extends AbstractType
 {
@@ -22,6 +23,24 @@ class StudentForm extends AbstractType
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom',
+                'required' => false,
+                'constraints'=> new NotBlank([
+                    'message' => 'Le nom ne peut pas être vide.',
+                ]),
+                'helper' => 'Entrez votre nom complet.',
+                'attr' => [
+                    'placeholder' => 'Entrez votre nom',
+                    'class' => '',
+                ],
+
+
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Prenom',
+                'required' => false,
+                'constraints'=> new NotBlank([
+                    'message' => 'Le Prenom ne peut pas être vide.',
+                ]),
 
 
             ])
