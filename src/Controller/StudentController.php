@@ -25,10 +25,10 @@ final class StudentController extends AbstractController
     }
 
     //Recuperation de l'Image de profile
-    #[Route('/student/profile/image/{profileName}', name: 'student_profile_image', defaults: ['profileName' => 'avatar.png'])]
+    #[Route('/student/profile/image/{profileName}', name: 'student_profile_image')]
     public function studentProfileImage(string $profileName): BinaryFileResponse
     {
-
+        
         $filePath = $this->getParameter('student_image_profile') . DIRECTORY_SEPARATOR . $profileName;
         return new BinaryFileResponse($filePath);
     }
@@ -42,15 +42,25 @@ final class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //Traitement de l'image
-            $imageFile = $form->get('imageprofile')->getData();
+            $imageFile = $form->get('imageprofile')->getData(); //Récupération des images multiples
+            $imageNames = []; //Initialisation d'un tableau pour stocker les noms des images
+
             if ($imageFile) {
-                $orignaleFileName = pathInfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFileName = $slugger->slug($orignaleFileName);
-                $newFileName = $safeFileName . '-' . uniqid() . '.' . $imageFile->guessExtension();
-                $imageFile->move($this->getParameter('student_image_profile'), $newFileName);
-                $student->setImageProfile($newFileName);
+                
+                foreach($imageFile as $images) { //Parcourir les images multiples
+
+                    $orignaleFileName = pathInfo($images->getClientOriginalName(), PATHINFO_FILENAME); //Obtenion du nom original du fichier
+                    $safeFileName = $slugger->slug($orignaleFileName); //Formatage du nom de fichier pour le rendre sûr, exemple : "Mon Image.jpg" devient "mon-image"
+                    $newFileName = $safeFileName . '-' . uniqid() . '.' . $images->guessExtension(); // Création d'un nom de fichier unique
+                    $images->move($this->getParameter('student_image_profile'), $newFileName); // Déplacement du fichier vers le répertoire de destination
+                    $imageNames[] = $newFileName; // Ajout du nom de fichier au tableau
+                    //et la boucle recommence selon le nombre de l'image
+                }
+                $student->setImageProfile($imageNames); // Enregistrement du tableau des noms d'images dans l'entité Student
+            }else{
+                $imageNames[]="avatar.png"; // Si aucune image n'est fournie, on utilise une image par défaut
             }
+
             $entityManager->persist($student);
             $entityManager->flush();
 

@@ -13,8 +13,8 @@ class Student
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $imageProfile = null;
+    #[ORM\Column(type:'json', length: 100)]
+    private array $imageProfile = [];
 
     #[ORM\Column(length: 100)]
     private ?string $name = null;
@@ -24,12 +24,12 @@ class Student
         return $this->id;
     }
 
-    public function getImageProfile(): ?string
+    public function getImageProfile(): array
     {
         return $this->imageProfile;
     }
 
-    public function setImageProfile(?string $imageProfile): static
+    public function setImageProfile(array $imageProfile): static
     {
         $this->imageProfile = $imageProfile;
 

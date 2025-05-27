@@ -15,12 +15,14 @@ class StudentForm extends AbstractType
     {
         $builder
             ->add('imageprofile', FileType::class, [
-                'label'=>'Photo de profil',
-                'mapped'=>false,
+                'label' => 'Photo de profil',
+                'mapped' => false,
+                'multiple' => true,
+                'required' => false,
             ])
-            ->add('name', TextType::class,[
-                'label'=>'Nom',
-                
+            ->add('name', TextType::class, [
+                'label' => 'Nom',
+
 
             ])
         ;
