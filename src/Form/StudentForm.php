@@ -27,7 +27,7 @@ class StudentForm extends AbstractType
                 'constraints'=> new NotBlank([
                     'message' => 'Le nom ne peut pas être vide.',
                 ]),
-                'helper' => 'Entrez votre nom complet.',
+               
                 'attr' => [
                     'placeholder' => 'Entrez votre nom',
                     'class' => '',
