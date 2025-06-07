@@ -8,8 +8,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class UploadFile {
 
     public function __construct(
-        private SluggerInterface $slugger;
-        private ParameterBagInterface $parameterBag;
+        public SluggerInterface $slugger,
+        public ParameterBagInterface $parameterBag
         ){}
 
     // public function uploadFileSingle(){}
@@ -24,7 +24,7 @@ class UploadFile {
                     $orignaleFileName = pathInfo($images->getClientOriginalName(), PATHINFO_FILENAME); //Obtenion du nom original du fichier
                     $safeFileName = $this->slugger->slug($orignaleFileName); //Formatage du nom de fichier pour le rendre sûr, exemple : "Mon Image.jpg" devient "mon-image"
                     $newFileName = $safeFileName . '-' . uniqid() . '.' . $images->guessExtension(); // Création d'un nom de fichier unique
-                    $images->move($subjectController->getParameter($targetDirectory), $newFileName); // Déplacement du fichier vers le répertoire de destination
+                    $images->move($this->parameterBag->get($targetDirectory), $newFileName); // Déplacement du fichier vers le répertoire de destination
                     $imageNames[] = $newFileName; // Ajout du nom de fichier au tableau
                     //et la boucle recommence selon le nombre de l'image
                 }
