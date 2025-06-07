@@ -2,13 +2,19 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UploadFile {
 
-    public function __construct(private SluggerInterface $slugger){}
+    public function __construct(
+        private SluggerInterface $slugger;
+        private ParameterBagInterface $parameterBag;
+        ){}
 
-    public function uploadFileMultiple(mixed $imageFile, mixed $subject, mixed $subjectController, string $pathFolder)
+    // public function uploadFileSingle(){}
+
+    public function uploadFileMultiple($imageFile, mixed $subject, mixed $subjectController, string $targetDirectory)
     {
         $imageNames = []; //Initialisation d'un tableau pour stocker les noms des images
         if ($imageFile) {
@@ -18,7 +24,7 @@ class UploadFile {
                     $orignaleFileName = pathInfo($images->getClientOriginalName(), PATHINFO_FILENAME); //Obtenion du nom original du fichier
                     $safeFileName = $this->slugger->slug($orignaleFileName); //Formatage du nom de fichier pour le rendre sûr, exemple : "Mon Image.jpg" devient "mon-image"
                     $newFileName = $safeFileName . '-' . uniqid() . '.' . $images->guessExtension(); // Création d'un nom de fichier unique
-                    $images->move($subjectController->getParameter($pathFolder), $newFileName); // Déplacement du fichier vers le répertoire de destination
+                    $images->move($subjectController->getParameter($targetDirectory), $newFileName); // Déplacement du fichier vers le répertoire de destination
                     $imageNames[] = $newFileName; // Ajout du nom de fichier au tableau
                     //et la boucle recommence selon le nombre de l'image
                 }

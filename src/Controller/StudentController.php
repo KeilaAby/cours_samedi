@@ -62,27 +62,12 @@ final class StudentController extends AbstractController
 
             // encode the plain password
             $student->setPassword($userPasswordHasher->hashPassword($student, $plainPassword));
-
+            
+            //Traitements de l'Upload Image
             $imageFile = $form->get('imageprofile')->getData(); //Récupération des images multiples
-            $path = 'student_image_profile';
-            $uploadfile->uploadFileMultiple($imageFile, $student, $this, $path);
-            // $imageNames = []; //Initialisation d'un tableau pour stocker les noms des images
+            $target = 'student_image_profile';
+            $uploadfile->uploadFileMultiple($imageFile, $student, $this, $target);
 
-            // if ($imageFile) {
-
-            //     foreach ($imageFile as $images) { //Parcourir les images multiples
-
-            //         $orignaleFileName = pathInfo($images->getClientOriginalName(), PATHINFO_FILENAME); //Obtenion du nom original du fichier
-            //         $safeFileName = $slugger->slug($orignaleFileName); //Formatage du nom de fichier pour le rendre sûr, exemple : "Mon Image.jpg" devient "mon-image"
-            //         $newFileName = $safeFileName . '-' . uniqid() . '.' . $images->guessExtension(); // Création d'un nom de fichier unique
-            //         $images->move($this->getParameter('student_image_profile'), $newFileName); // Déplacement du fichier vers le répertoire de destination
-            //         $imageNames[] = $newFileName; // Ajout du nom de fichier au tableau
-            //         //et la boucle recommence selon le nombre de l'image
-            //     }
-            //     $student->setImageProfile($imageNames); // Enregistrement du tableau des noms d'images dans l'entité Student
-            // } else {
-            //     $imageNames[] = "avatar.png"; // Si aucune image n'est fournie, on utilise une image par défaut
-            // }
 
             $entityManager->persist($student);
             $entityManager->flush();
