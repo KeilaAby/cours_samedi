@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>ImageProfile</th>
+                <th>mail</th>
                 <th>Name</th>
                 <th>Prenom</th>
                 <th>actions</th>
@@ -27,11 +28,15 @@
 
                 {% endfor %}
                 </td>
+                <td>{{ student.email }}</td>
                 <td>{{ student.name }}</td>
                 <td>{{ student.prenom }}</td>
                 <td>
                     <a href="{{ path('app_student_show', {'id': student.id}) }}">show</a>
+                    {# {{#[isGranted(StudentVoter::EDIT, subject:'student')]}} #}
+                    {# {% if is_granted('STUDENT_EDIT', student) %} #}
                     <a href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
+                    {# {% endif %} #}
                 </td>
             </tr>
         {% else %}

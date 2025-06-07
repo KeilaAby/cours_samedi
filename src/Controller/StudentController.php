@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Student;
+use App\Entity\User;
 use App\Form\StudentForm;
 use App\Repository\StudentRepository;
+use App\Security\Voter\StudentVoter;
 use App\Service\UploadFile;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,13 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 
 
 #[Route('/student')]
 final class StudentController extends AbstractController
 {
+    public function __construct(){
+        $user = new USer;
+    }
     #[Route(name: 'app_student_index', methods: ['GET'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(StudentRepository $studentRepository): Response
@@ -89,6 +94,7 @@ final class StudentController extends AbstractController
         ]);
     }
 
+    #[isGranted(StudentVoter::EDIT, subject:'student')]
     #[Route('/{id}/edit', name: 'app_student_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Student $student, EntityManagerInterface $entityManager): Response
     {

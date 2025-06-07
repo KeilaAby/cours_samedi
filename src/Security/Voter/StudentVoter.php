@@ -30,16 +30,15 @@ final class StudentVoter extends Voter
             return false;
         }
 
-        // if(!$subject instanceof Student){
-        //     return false;
-        // }
+        if(!$subject instanceof User){
+            return false;
+        }
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::EDIT:
                 // logic to determine if the user can EDIT
-                // return $subject->getUser()->getId() === $user->getId();
-                // return true or false
+                return $subject->getId() === $user->getId();
                 break;
 
             case self::VIEW:
