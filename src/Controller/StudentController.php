@@ -11,14 +11,17 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/student')]
 final class StudentController extends AbstractController
 {
     #[Route(name: 'app_student_index', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(StudentRepository $studentRepository): Response
     {
+        // $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('student/index.html.twig', [
             'students' => $studentRepository->findAll(),
         ]);
