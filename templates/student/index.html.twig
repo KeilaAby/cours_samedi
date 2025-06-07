@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>ImageProfile</th>
                 <th>Name</th>
+                <th>Prenom</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -27,6 +28,7 @@
                 {% endfor %}
                 </td>
                 <td>{{ student.name }}</td>
+                <td>{{ student.prenom }}</td>
                 <td>
                     <a href="{{ path('app_student_show', {'id': student.id}) }}">show</a>
                     <a href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
