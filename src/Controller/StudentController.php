@@ -46,6 +46,7 @@ final class StudentController extends AbstractController
     }
 
     #[Route('/new', name: 'app_student_new', methods: ['GET', 'POST'])]
+    #[IsGranted(StudentVoter::CREATE)]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher, UploadFile $uploadfile): Response
     {
         // $uploadfile->uploadFileMultiple();

@@ -27,12 +27,12 @@ class EmailVerifier
             (string) $user->getEmail()
         );
 
-        $context = $email->getContext();
-        $context['signedUrl'] = $signatureComponents->getSignedUrl();
-        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
+        $context = $email->getContext(); //Créatio de l'eneveloppe
+        $context['signedUrl'] = $signatureComponents->getSignedUrl(); //génaration du lien que l'utilisateur doit cliquer
+        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey(); //delai de validation
         $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
 
-        $email->context($context);
+        $email->context($context); //On donne l'enevloppe au facteur
 
         $this->mailer->send($email);
     }
@@ -45,7 +45,6 @@ class EmailVerifier
         $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, (string) $user->getId(), (string) $user->getEmail());
 
         $user->setIsVerified(true);
-
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }

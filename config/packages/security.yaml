@@ -15,13 +15,14 @@ security:
             security: false
         main:
             lazy: true
+            # user_checker: App\Security\UserChecker
             provider: app_user_provider
             custom_authenticator: App\Security\AppAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
                 target: app_login
-
+                
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
