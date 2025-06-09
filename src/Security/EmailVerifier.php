@@ -27,7 +27,7 @@ class EmailVerifier
             (string) $user->getEmail()
         );
 
-        $context = $email->getContext(); //Créatio de l'eneveloppe
+        $context = $email->getContext(); //Création de l'eneveloppe
         $context['signedUrl'] = $signatureComponents->getSignedUrl(); //génaration du lien que l'utilisateur doit cliquer
         $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey(); //delai de validation
         $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();

@@ -1,12 +1,13 @@
-<h1>Hi! Please confirm your account!</h1>
+{# <h1>Hi! Please confirm your account!</h1>
 
 <p>
     Please confirm your email address by clicking the following link: <br><br>
     <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
     This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
+</p> #}
 
-{# <a href="{{ url('app_activation', {token: user.token }) }}">{{ url('app_activation', {token: user.token }) }}</a> #}
+<h1>Veuillez cnonfimez votre compte !!</h1>
+<a href="{{ url('app_activation', {token: user.token }) }}">{{ url('app_activation', {token: user.token }) }}</a>
 
 
 
